@@ -5,6 +5,8 @@ import dev.ort.spring.projet42.repositories.EvenementRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/evenements")
 public class EvenementControllers {
+
+    private static final Logger logger = LoggerFactory.getLogger(Evenement.class);
+
 
     @Autowired
     private EvenementRepository evenementRepository;
@@ -26,9 +31,9 @@ public class EvenementControllers {
     @PutMapping
     public Evenement createOrUpdate(@RequestBody @Valid  Evenement evenement) {
         if(evenementRepository.existsById(evenement.getId())){
-            System.out.println("Updating evenement... " + evenement.getId());
+            logger.info("Updating evenement... {}", evenement.getId());
         } else {
-            System.out.println("Creating evenement... " + evenement.getId());
+            logger.info("Creating evenement... {}", evenement.getId());
         }
         return evenementRepository.save(evenement);
     }
