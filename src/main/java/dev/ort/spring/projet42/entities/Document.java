@@ -2,6 +2,7 @@ package dev.ort.spring.projet42.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Document {
@@ -14,6 +15,10 @@ public class Document {
     @Column
     @NotBlank
     private String nom;
+
+    @Column
+    @NotNull
+    private Long idUtilisateur;
 
     public Long getId() {
         return id;
@@ -29,5 +34,13 @@ public class Document {
 
     public void setNom(@NotBlank String nom) {
         this.nom = nom;
+    }
+
+    public @NotNull Long getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(@NotNull Long idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 }

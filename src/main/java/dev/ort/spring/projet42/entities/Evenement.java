@@ -2,8 +2,11 @@ package dev.ort.spring.projet42.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Evenement {
@@ -21,14 +24,22 @@ public class Evenement {
     private String image;
 
     @Column
-    @NotBlank
-    private int maxParticipants;
+    @NotNull
+    @Positive
+    private Integer maxParticipants;
 
     @Column
     private LocalDate dateDevut;
 
     @Column
     private String parcoursJSON;
+
+    @Column
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "evenement_sport",
+            joinColumns = @JoinColumn(name = "evenement_id"),
+            inverseJoinColumns = @JoinColumn(name = "sport_id"))
+    private List<Sport> sports;
 
     public Long getId() {
         return id;
@@ -54,13 +65,20 @@ public class Evenement {
         this.image = image;
     }
 
-    @NotBlank
-    public int getMaxParticipants() {
+    public @NotNull Integer getMaxParticipants() {
         return maxParticipants;
     }
 
-    public void setMaxParticipants(@NotBlank int maxParticipants) {
+    public void setMaxParticipants(@NotNull Integer maxParticipants) {
         this.maxParticipants = maxParticipants;
+    }
+
+    public String getParcoursJSON() {
+        return parcoursJSON;
+    }
+
+    public void setParcoursJSON(String parcoursJSON) {
+        this.parcoursJSON = parcoursJSON;
     }
 
     public LocalDate getDateDevut() {
@@ -71,11 +89,11 @@ public class Evenement {
         this.dateDevut = dateDevut;
     }
 
-    public String getParcoursJSON() {
-        return parcoursJSON;
+    public List<Sport> getSports() {
+        return sports;
     }
 
-    public void setParcoursJSON(String parcoursJSON) {
-        this.parcoursJSON = parcoursJSON;
+    public void setSports(List<Sport> sports) {
+        this.sports = sports;
     }
 }
