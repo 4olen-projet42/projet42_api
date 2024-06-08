@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/sports")
+@RequestMapping("/api/sports")
 public class SportControllers {
 
     @Autowired
