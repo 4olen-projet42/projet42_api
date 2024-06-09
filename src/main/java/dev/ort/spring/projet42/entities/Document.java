@@ -18,7 +18,7 @@ public class Document {
 
     @Column
     @NotNull
-    private Long idUtilisateur;
+    private String idUtilisateur;
 
     public Long getId() {
         return id;
@@ -36,11 +36,11 @@ public class Document {
         this.nom = nom;
     }
 
-    public @NotNull Long getIdUtilisateur() {
+    public @NotNull String getIdUtilisateur() {
         return idUtilisateur;
     }
 
-    public void setIdUtilisateur(@NotNull Long idUtilisateur) {
+    public void setIdUtilisateur(@NotNull String idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
 }

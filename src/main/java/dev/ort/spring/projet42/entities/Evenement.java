@@ -29,7 +29,7 @@ public class Evenement {
     private Integer maxParticipants;
 
     @Column
-    private LocalDate dateDevut;
+    private LocalDate dateDebut;
 
     @Column
     private String parcoursJSON;
@@ -81,12 +81,12 @@ public class Evenement {
         this.parcoursJSON = parcoursJSON;
     }
 
-    public LocalDate getDateDevut() {
-        return dateDevut;
+    public LocalDate getDateDebut() {
+        return dateDebut;
     }
 
-    public void setDateDevut(LocalDate dateDevut) {
-        this.dateDevut = dateDevut;
+    public void setDateDebut(LocalDate dateDevut) {
+        this.dateDebut = dateDevut;
     }
 
     public List<Sport> getSports() {
