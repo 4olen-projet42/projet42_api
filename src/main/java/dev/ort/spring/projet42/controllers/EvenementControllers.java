@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,5 +45,26 @@ public class EvenementControllers {
         }
         throw new ResourceNotFoundException(Evenement.class, id);
 
+    }
+
+    @Operation(summary = "Récupération de tous les événements avec une dates de début supérieure ou égale à la date du jour")
+    @ApiResponse(responseCode = "404", description = "Aucun événement disponible")
+    @RequestMapping(path = "/allAvailable", method = RequestMethod.GET)
+    public List<Evenement> getAllAvailableEvenements() {
+        return evenementRepository.findByDateDebutGreaterThanEqual(LocalDate.now());
+    }
+
+    @Operation(summary = "Récupération des 3 plus récent événements ")
+    @ApiResponse(responseCode = "404", description = "Aucun événement disponible")
+    @RequestMapping(path = "/newEvent", method = RequestMethod.GET)
+    public List<Evenement> getNewEvent() {
+        return evenementRepository.findNewEvenement();
+    }
+
+    @Operation(summary = "Recherche d'événements par mot clé")
+    @ApiResponse(responseCode = "404", description = "Aucun événement trouvé")
+    @RequestMapping(path = "/like/{search}", method = RequestMethod.GET)
+    public List<Evenement> search(@PathVariable(name = "search") String search) {
+        return evenementRepository.searchEvenements(search);
     }
 }

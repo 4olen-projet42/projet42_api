@@ -21,9 +21,9 @@ spring:
             scope: openid
         provider:
           keycloak:
-            issuer-uri: http://localhost:8089/realms/projet42
+            issuer-uri: http://localhost:8090/realms/projet42
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8089/realms/projet42
-          jwk-set-uri: http://localhost:8089/realms/projet42/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8090/realms/projet42
+          jwk-set-uri: http://localhost:8090/realms/projet42/protocol/openid-connect/certs
