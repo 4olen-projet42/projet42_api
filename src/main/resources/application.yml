@@ -27,3 +27,12 @@ spring:
         jwt:
           issuer-uri: http://localhost:8090/realms/projet42
           jwk-set-uri: http://localhost:8090/realms/projet42/protocol/openid-connect/certs
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+file :
+  upload-dir: C:\Users\jovan\IdeaProjects\projet42\uploads
