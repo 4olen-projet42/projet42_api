@@ -1,5 +1,6 @@
 package dev.ort.spring.projet42.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,9 +17,9 @@ public class Document {
     @NotBlank
     private String nom;
 
-    @Column
-    @NotNull
-    private String idUtilisateur;
+    @JsonIgnoreProperties("documents")
+    @ManyToOne
+    private Utilisateur utilisateur;
 
     public Long getId() {
         return id;
@@ -36,11 +37,11 @@ public class Document {
         this.nom = nom;
     }
 
-    public @NotNull String getIdUtilisateur() {
-        return idUtilisateur;
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
     }
 
-    public void setIdUtilisateur(@NotNull String idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 }
