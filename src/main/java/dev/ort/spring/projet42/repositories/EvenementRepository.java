@@ -19,4 +19,7 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long> {
 
     @Query("SELECT e FROM Evenement e WHERE e.nom LIKE %:search%")
     List<Evenement> searchEvenements(@Param("search") String search);
+
+    @Query("SELECT e FROM Evenement e inner join Inscription i on e.id = i.evenement.id WHERE i.idUtilisateur = :idUtilisateur")
+    List<Evenement> findEvenementsByUtilisateur(@Param("idUtilisateur") String idUtilisateur);
 }

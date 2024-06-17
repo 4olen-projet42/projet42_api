@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sports")
+@RequestMapping("/sports")
 public class SportControllers {
 
     @Autowired
@@ -19,7 +19,7 @@ public class SportControllers {
         return sportRepository.findAll();
     }
 
-    @PutMapping
+    @PutMapping("/api/sports")
     public Sport createOrUpdate(@RequestBody @Valid Sport sport) {
         if(sportRepository.existsById(sport.getId())){
             System.out.println("Updating sport... " + sport.getId());

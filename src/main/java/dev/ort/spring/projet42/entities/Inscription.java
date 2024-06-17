@@ -1,7 +1,9 @@
 package dev.ort.spring.projet42.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -20,9 +22,8 @@ public class Inscription {
     @NotNull
     private Evenement evenement;
 
-    @JsonIgnoreProperties("inscriptions")
-    @ManyToOne
-    private Utilisateur utilisateur;
+    @JsonIgnore
+    private String idUtilisateur;
 
     public Long getId() {
         return id;
@@ -48,11 +49,11 @@ public class Inscription {
         this.evenement = evenement;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public String getIdUtilisateur() {
+        return idUtilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setIdUtilisateur(String idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 }

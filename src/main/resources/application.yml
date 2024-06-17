@@ -36,3 +36,6 @@ spring:
 
 file :
   upload-dir: C:\Users\jovan\IdeaProjects\projet42\uploads
+keycloak:
+  auth-server-url: http://localhost:8090
+  realm: projet42

@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -15,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/evenements")
+@RequestMapping("/evenements")
 public class EvenementControllers {
 
     private static final Logger logger = LoggerFactory.getLogger(Evenement.class);
@@ -72,4 +74,15 @@ public class EvenementControllers {
     public List<Evenement> search(@PathVariable(name = "search") String search) {
         return evenementRepository.searchEvenements(search);
     }
+
+    @Operation(summary = "Recherche des évènements auquel l'utilisateur est inscrit")
+    @ApiResponse(responseCode = "404", description = "Aucun événement trouvé")
+    @RequestMapping(path = "/api/byUser", method = RequestMethod.GET)
+    public List<Evenement> searchByUser(Authentication authentication) {
+
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+
+        return evenementRepository.findEvenementsByUtilisateur(jwt.getClaim("sub").toString());
+    }
+
 }

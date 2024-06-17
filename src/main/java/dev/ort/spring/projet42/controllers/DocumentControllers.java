@@ -1,20 +1,15 @@
 package dev.ort.spring.projet42.controllers;
 
 import dev.ort.spring.projet42.entities.Document;
-import dev.ort.spring.projet42.entities.Evenement;
-import dev.ort.spring.projet42.entities.Utilisateur;
 import dev.ort.spring.projet42.exceptions.FileStorageException;
 import dev.ort.spring.projet42.exceptions.MyFileNotFoundException;
-import dev.ort.spring.projet42.exceptions.ResourceNotFoundException;
-import dev.ort.spring.projet42.exceptions.UtilisateurNotFoundException;
 import dev.ort.spring.projet42.repositories.DocumentRepository;
-import dev.ort.spring.projet42.repositories.EvenementRepository;
-import dev.ort.spring.projet42.repositories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +20,6 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,8 +29,7 @@ public class DocumentControllers {
     @Autowired
     private DocumentRepository documentRepository;
 
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
+
 
     @PostMapping("/uploadFile")
     public Document uploadFile(@RequestParam("file") MultipartFile file, Authentication authentication) throws FileStorageException {
@@ -54,9 +47,10 @@ public class DocumentControllers {
             document.setData(file.getBytes());
 
 
-            Utilisateur utilisateur = utilisateurRepository.findById(authentication.getName()).orElseThrow(() -> new UtilisateurNotFoundException("Utilisateur not found with id " + authentication.getName()));
 
-            document.setUtilisateur(utilisateur);
+            Jwt jwt = (Jwt) authentication.getPrincipal();
+
+            document.setIdUtilisateur(jwt.getClaim("sub").toString());
 
 
             documentRepository.save(document);
@@ -70,8 +64,6 @@ public class DocumentControllers {
 
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        } catch (UtilisateurNotFoundException e) {
-            throw new RuntimeException(e);
         }
 
     }
