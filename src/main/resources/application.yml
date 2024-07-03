@@ -11,6 +11,31 @@ spring:
       hibernate:.dialect: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: update # none
-  documentation:
-    swagger:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: projet42-api
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.1.30:8090/realms/projet42
+            user-name-attribute: preferred_username
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.1.30:8090/realms/projet42
+          jwk-set-uri: http://192.168.1.30:8090/realms/projet42/protocol/openid-connect/certs
+  servlet:
+    multipart:
       enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+file :
+  upload-dir: C:/Users/jovan/IdeaProjects/projet42/uploads
+keycloak:
+  auth-server-url: http://192.168.1.30:8090
+  realm: projet42

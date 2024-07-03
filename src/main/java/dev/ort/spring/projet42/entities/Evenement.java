@@ -2,8 +2,11 @@ package dev.ort.spring.projet42.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Evenement {
@@ -21,14 +24,28 @@ public class Evenement {
     private String image;
 
     @Column
-    @NotBlank
-    private int maxParticipants;
+    @NotNull
+    @Positive
+    private Integer maxParticipants;
 
     @Column
-    private LocalDate dateDevut;
+    private LocalDate dateDebut;
+
+    @Column
+    private String ville;
+
+    @Column
+    private Integer distance;
 
     @Column
     private String parcoursJSON;
+
+    @Column
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "evenement_sport",
+            joinColumns = @JoinColumn(name = "evenement_id"),
+            inverseJoinColumns = @JoinColumn(name = "sport_id"))
+    private List<Sport> sports;
 
     public Long getId() {
         return id;
@@ -54,21 +71,36 @@ public class Evenement {
         this.image = image;
     }
 
-    @NotBlank
-    public int getMaxParticipants() {
+    public @NotNull Integer getMaxParticipants() {
         return maxParticipants;
     }
 
-    public void setMaxParticipants(@NotBlank int maxParticipants) {
+    public void setMaxParticipants(@NotNull Integer maxParticipants) {
         this.maxParticipants = maxParticipants;
     }
 
-    public LocalDate getDateDevut() {
-        return dateDevut;
+    public LocalDate getDateDebut() {
+        return dateDebut;
     }
 
-    public void setDateDevut(LocalDate dateDevut) {
-        this.dateDevut = dateDevut;
+    public void setDateDebut(LocalDate dateDevut) {
+        this.dateDebut = dateDevut;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
     public String getParcoursJSON() {
@@ -77,5 +109,13 @@ public class Evenement {
 
     public void setParcoursJSON(String parcoursJSON) {
         this.parcoursJSON = parcoursJSON;
+    }
+
+    public List<Sport> getSports() {
+        return sports;
+    }
+
+    public void setSports(List<Sport> sports) {
+        this.sports = sports;
     }
 }

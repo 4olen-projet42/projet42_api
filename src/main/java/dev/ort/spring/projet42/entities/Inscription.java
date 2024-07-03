@@ -1,6 +1,10 @@
 package dev.ort.spring.projet42.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Inscription {
@@ -11,7 +15,15 @@ public class Inscription {
     private Long id;
 
     @Column
-    private byte valide;
+    private Integer valide;
+
+    @OneToOne
+    @JoinColumn(name = "evenement_id")
+    @NotNull
+    private Evenement evenement;
+
+    @JsonIgnore
+    private String idUtilisateur;
 
     public Long getId() {
         return id;
@@ -21,11 +33,27 @@ public class Inscription {
         this.id = id;
     }
 
-    public byte getValide() {
+    public Integer getValide() {
         return valide;
     }
 
-    public void setValide(byte valide) {
+    public void setValide(Integer valide) {
         this.valide = valide;
+    }
+
+    public @NotNull Evenement getEvenement() {
+        return evenement;
+    }
+
+    public void setEvenement(@NotNull Evenement evenement) {
+        this.evenement = evenement;
+    }
+
+    public String getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(String idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 }
