@@ -32,6 +32,12 @@ public class Evenement {
     private LocalDate dateDebut;
 
     @Column
+    private String ville;
+
+    @Column
+    private Integer distance;
+
+    @Column
     private String parcoursJSON;
 
     @Column
@@ -73,20 +79,36 @@ public class Evenement {
         this.maxParticipants = maxParticipants;
     }
 
-    public String getParcoursJSON() {
-        return parcoursJSON;
-    }
-
-    public void setParcoursJSON(String parcoursJSON) {
-        this.parcoursJSON = parcoursJSON;
-    }
-
     public LocalDate getDateDebut() {
         return dateDebut;
     }
 
     public void setDateDebut(LocalDate dateDevut) {
         this.dateDebut = dateDevut;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
+    public String getParcoursJSON() {
+        return parcoursJSON;
+    }
+
+    public void setParcoursJSON(String parcoursJSON) {
+        this.parcoursJSON = parcoursJSON;
     }
 
     public List<Sport> getSports() {
