@@ -44,7 +44,7 @@ public class EvenementControllers {
     @Operation(summary = "Récupération d'un événement à partir de son identifiant")
     @ApiResponse(responseCode = "404", description = "Utilisateur non trouvé")
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public Evenement get(@PathVariable(name = "id") Long id) throws ResourceNotFoundException {
+    public Evenement getEvenementsById(@PathVariable(name = "id") Long id) throws ResourceNotFoundException {
 
         Optional<Evenement> event = evenementRepository.findById(id);
         if (event.isPresent()) {

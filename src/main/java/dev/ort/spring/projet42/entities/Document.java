@@ -15,15 +15,9 @@ public class Document {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    private String fileType;
-
-    @Lob
-    private byte[] data;
-
     @Column
     @NotBlank
-    private String nom;
-
+    private String fileName;
 
     @JsonIgnore
     private String idUtilisateur;
@@ -36,13 +30,14 @@ public class Document {
         this.id = id;
     }
 
-    public @NotBlank String getNom() {
-        return nom;
+    public @NotBlank String getFileName() {
+        return fileName;
     }
 
-    public void setNom(@NotBlank String nom) {
-        this.nom = nom;
+    public void setFileName(@NotBlank String fileName) {
+        this.fileName = fileName;
     }
+
 
     public String getIdUtilisateur() {
         return idUtilisateur;
@@ -50,21 +45,5 @@ public class Document {
 
     public void setIdUtilisateur(String idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
-    }
-
-    public String getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
     }
 }

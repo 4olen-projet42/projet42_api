@@ -30,7 +30,7 @@ public class UtilisateurControllers {
 
 
     @GetMapping("/connected")
-    public Object getUtilisateurName(Authentication authentication) {
+    public String getUtilisateurName(Authentication authentication) {
 
         return authentication.getName();
     }

@@ -1,14 +1,20 @@
 package dev.ort.spring.projet42.controllers;
 
 import dev.ort.spring.projet42.entities.Document;
+import dev.ort.spring.projet42.entities.Evenement;
 import dev.ort.spring.projet42.exceptions.FileStorageException;
 import dev.ort.spring.projet42.exceptions.MyFileNotFoundException;
 import dev.ort.spring.projet42.repositories.DocumentRepository;
+import dev.ort.spring.projet42.services.DocumentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -27,70 +33,36 @@ import java.util.stream.Collectors;
 public class DocumentControllers {
 
     @Autowired
-    private DocumentRepository documentRepository;
+    private DocumentService documentService;
+
+    @PostMapping("/upload")
+    public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file, @AuthenticationPrincipal Jwt jwt) throws IOException {
+        String status = documentService.uploadFile(file, jwt);
+        return "CREATED".equals(status) ? new ResponseEntity<>(HttpStatus.CREATED) : ("EXIST".equals(status) ? new ResponseEntity<>(HttpStatus.NOT_MODIFIED) : new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED));
+    }
 
 
+    @Operation(summary = "Recherche de documents par utilisateur")
+    @ApiResponse(responseCode = "404", description = "Aucun document trouvé")
+    @RequestMapping(path = "/list", method = RequestMethod.GET)
+    public List<Document> getDocumentsByIdUtilisateur(@AuthenticationPrincipal Jwt jwt) {
+        return documentService.getDocumentsByUtilisateur(jwt);
+    }
 
-    @PostMapping("/uploadFile")
-    public Document uploadFile(@RequestParam("file") MultipartFile file, Authentication authentication) throws FileStorageException {
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        try {
-            // Check if the file's name contains invalid characters
-            if(fileName.contains("..")) {
-                throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
-            }
-
-            Document document = new Document();
-            document.setNom(fileName);
-            document.setFileType(file.getContentType());
-            document.setData(file.getBytes());
-
-
-
-            Jwt jwt = (Jwt) authentication.getPrincipal();
-
-            document.setIdUtilisateur(jwt.getClaim("sub").toString());
-
-
-            documentRepository.save(document);
-
-           String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                   .path("/downloadFile/")
-                   .path(document.getId())
-                   .toUriString();
-
-            return document;
-
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+    @GetMapping(value = "/download/{name}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<?> downloadFile(@PathVariable(value = "name") String fileName, @AuthenticationPrincipal Jwt jwt) {
+        Resource file = documentService.downloadFile(fileName, jwt);
+        if (file == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).body(file);
         }
-
     }
 
-    @PostMapping("/uploadMultipleFiles")
-    public List<Document> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, Authentication authentication) {
-        return Arrays.asList(files)
-                .stream()
-                .map(file -> {
-                    try {
-                        return uploadFile(file, authentication);
-                    } catch (FileStorageException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(Collectors.toList());
-    }
-
-    @RequestMapping(path = "/downloadFile/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource> downloadFile(@PathVariable(value = "id") String id) throws MyFileNotFoundException {
-        // Load file from database
-        Document document = documentRepository.findById(id).orElseThrow(() -> new MyFileNotFoundException("File not found with id " + id));
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(document.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getNom() + "\"")
-                .body(new ByteArrayResource(document.getData()));
+    @Operation(summary = "Suppression d'un document à partir de son identifiant")
+    @RequestMapping(path = "/delete/{id}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable(value = "id") String id, @AuthenticationPrincipal Jwt jwt) {
+        documentService.deleteDocument(id, jwt);
     }
 
 }
