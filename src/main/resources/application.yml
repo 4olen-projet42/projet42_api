@@ -21,12 +21,12 @@ spring:
             scope: openid
         provider:
           keycloak:
-            issuer-uri: https://192.168.1.55:8443/realms/projet42
+            issuer-uri: https://keycloak.technobrain.com:8443/realms/projet42
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: https://192.168.1.55:8443/realms/projet42
-          jwk-set-uri: https://192.168.1.55:8443/realms/projet42/protocol/openid-connect/certs
+          issuer-uri: https://keycloak.technobrain.com:8443/realms/projet42
+          jwk-set-uri: https://keycloak.technobrain.com:8443/realms/projet42/protocol/openid-connect/certs
   servlet:
     multipart:
       enabled: true
@@ -37,5 +37,5 @@ spring:
 file :
   upload-dir: ./uploads
 keycloak:
-  auth-server-url: https://192.168.1.55:8443
+  auth-server-url: https://keycloak.technobrain.com:8443
   realm: projet42
