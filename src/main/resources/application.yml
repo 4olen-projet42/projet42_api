@@ -35,7 +35,8 @@ spring:
       max-request-size: 215MB
 
 file :
-  upload-dir: ./uploads
+  upload-dir: /var/p42/projet42/uploads 
 keycloak:
   auth-server-url: https://keycloak.doubli.fr
   realm: projet42
+

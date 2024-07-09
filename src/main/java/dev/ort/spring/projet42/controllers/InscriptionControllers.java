@@ -2,6 +2,7 @@ package dev.ort.spring.projet42.controllers;
 
 import dev.ort.spring.projet42.entities.Inscription;
 import dev.ort.spring.projet42.repositories.InscriptionRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,11 +18,13 @@ public class InscriptionControllers {
     @Autowired
     private InscriptionRepository inscriptionRepository;
 
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
+    @Operation(summary = "Récupération de toutes les inscriptions")
+    @GetMapping
     public List<Inscription> getAllInscriptions() {
         return inscriptionRepository.findAll();
     }
 
+    @Operation(summary = "Création ou mise à jour d'une inscription")
     @PutMapping
     public Inscription createOrUpdate(@RequestBody @Valid  Inscription inscription, Authentication authentication) {
 
