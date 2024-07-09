@@ -22,4 +22,7 @@ public interface EvenementRepository extends JpaRepository<Evenement, Long> {
 
     @Query("SELECT e FROM Evenement e inner join Inscription i on e.id = i.evenement.id WHERE i.idUtilisateur = :idUtilisateur")
     List<Evenement> findEvenementsByUtilisateur(@Param("idUtilisateur") String idUtilisateur);
+
+    @Query("SELECT COUNT(e), SUM(e.distance) FROM Evenement e INNER JOIN Inscription i ON e.id = i.evenement.id WHERE i.idUtilisateur = :idUtilisateur")
+    List<Object[]> findEvenementsStatistquesByUtilisateur(@Param("idUtilisateur") String idUtilisateur);
 }
