@@ -3,9 +3,9 @@ spring:
     name: projet42
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3308/projet42
-    username: root
-    password: Password123!
+    url: jdbc:mariadb://192.168.1.54:3306/projet42
+    username: userjovan
+    password: Userjovan-69
   jpa:
     properties:
       hibernate:.dialect: org.hibernate.dialect.MariaDBDialect
@@ -21,12 +21,12 @@ spring:
             scope: openid
         provider:
           keycloak:
-            issuer-uri: http://192.168.1.30:8090/realms/projet42
+            issuer-uri: https://keycloak.doubli.fr/realms/projet42
             user-name-attribute: preferred_username
       resourceserver:
         jwt:
-          issuer-uri: http://192.168.1.30:8090/realms/projet42
-          jwk-set-uri: http://192.168.1.30:8090/realms/projet42/protocol/openid-connect/certs
+          issuer-uri: https://keycloak.doubli.fr/realms/projet42
+          jwk-set-uri: https://keycloak.doubli.fr/realms/projet42/protocol/openid-connect/certs
   servlet:
     multipart:
       enabled: true
@@ -35,5 +35,8 @@ spring:
       max-request-size: 215MB
 
 file :
-  upload-dir: C:/Users/jovan/IdeaProjects/projet42/uploads
+  upload-dir: /var/p42/projet42/uploads 
+keycloak:
+  auth-server-url: https://keycloak.doubli.fr
+  realm: projet42
 
