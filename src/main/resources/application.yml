@@ -3,7 +3,7 @@ spring:
     name: projet42
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://192.168.1.54:3306/projet42
+    url: jdbc:mariadb://192.168.1.110:3306/projet42
     username: userjovan
     password: Userjovan-69
   jpa:
@@ -34,8 +34,9 @@ spring:
       max-file-size: 200MB
       max-request-size: 215MB
 
-file :
-  upload-dir: /var/p42/projet42/uploads 
+
+file:
+  upload-dir: /var/p42/projet42/uploads
 keycloak:
   auth-server-url: https://keycloak.doubli.fr:8443
   realm: projet42
