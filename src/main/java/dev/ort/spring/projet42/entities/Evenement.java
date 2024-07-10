@@ -32,19 +32,23 @@ public class Evenement {
     private LocalDate dateDebut;
 
     @Column
+    private String heureDebut;
+
+    @Column
     private String ville;
 
     @Column
     private Integer distance;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String parcoursJSON;
 
     @Column
+    private Integer denivele;
+
+    @Column
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "evenement_sport",
-            joinColumns = @JoinColumn(name = "evenement_id"),
-            inverseJoinColumns = @JoinColumn(name = "sport_id"))
+    @JoinTable(name = "evenement_sport", joinColumns = @JoinColumn(name = "evenement_id"), inverseJoinColumns = @JoinColumn(name = "sport_id"))
     private List<Sport> sports;
 
     public Long getId() {
@@ -117,5 +121,22 @@ public class Evenement {
 
     public void setSports(List<Sport> sports) {
         this.sports = sports;
+    }
+
+
+    public String getHeureDebut() {
+        return heureDebut;
+    }
+
+    public void setHeureDebut(String heureDebut) {
+        this.heureDebut = heureDebut;
+    }
+
+    public Integer getDenivele() {
+        return denivele;
+    }
+
+    public void setDenivele(Integer denivele) {
+        this.denivele = denivele;
     }
 }
