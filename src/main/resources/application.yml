@@ -27,6 +27,7 @@ spring:
         jwt:
           issuer-uri: https://keycloak.doubli.fr:8443/realms/projet42
           jwk-set-uri: https://keycloak.doubli.fr:8443/realms/projet42/protocol/openid-connect/certs
+
   servlet:
     multipart:
       enabled: true
@@ -34,8 +35,10 @@ spring:
       max-file-size: 200MB
       max-request-size: 215MB
 
+
 file:
   upload-dir: /var/p42/projet42/uploads
 keycloak:
   auth-server-url: https://keycloak.doubli.fr:8443
   realm: projet42
+
