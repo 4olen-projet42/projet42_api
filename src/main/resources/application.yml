@@ -27,7 +27,6 @@ spring:
         jwt:
           issuer-uri: https://keycloak.doubli.fr:8443/realms/projet42
           jwk-set-uri: https://keycloak.doubli.fr:8443/realms/projet42/protocol/openid-connect/certs
-
   servlet:
     multipart:
       enabled: true
