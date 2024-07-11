@@ -17,7 +17,7 @@ public class Inscription {
     @Column
     private Integer valide;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "evenement_id")
     @NotNull
     private Evenement evenement;
